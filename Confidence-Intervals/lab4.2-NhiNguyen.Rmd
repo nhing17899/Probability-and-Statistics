@@ -1,0 +1,139 @@
+---
+title: "lab4.2 - Confidence Intervals - Nhi Nguyen"
+output: pdf_document
+
+---
+
+Background Information:
+
+```{r}
+load('yrbss.rda')
+```
+
+Calculating confidence intervals:
+1.
+```{r}
+yrbss.complete = yrbss[complete.cases(yrbss$weight), ]
+sample.size = 30
+set.seed(5011)
+
+sample.rows = sample(1:nrow(yrbss.complete), sample.size)
+
+yrbss.sample = yrbss.complete[sample.rows, ]
+
+summary(yrbss.sample$weight)
+```
+
+QUES a:
+```{r}
+mean.sample = mean(yrbss.sample$weight) #calculate the mean of sample
+sd.sample = sd(yrbss.sample$weight) #calculate the standard deviation of the sample
+```
+
+QUES b:
+```{r}
+z = qnorm(0.975,)
+z
+```
+
+QUES c:
+margin error of x:
+```{r}
+margin.error = z * sd.sample / sqrt(sample.size)
+margin.error
+
+margin.left = mean.sample - margin.error
+margin.right = mean.sample + margin.error
+
+cat("(", margin.left,",", margin.right,")")
+```
+
+QUES d:
+when the sd value is getting bigger, the confidence interval is getting larger
+
+2.
+QUES a:
+```{r}
+z.90 = qnorm(1-(1-0.9)/2,)
+
+margin.error = z.90 * sd.sample / sqrt(sample.size)
+margin.error
+
+margin.left = mean.sample - margin.error
+margin.right = mean.sample + margin.error
+
+cat("(", margin.left,",", margin.right,")")
+```
+
+QUES b:
+```{r}
+z.99 = qnorm(1-(1-0.99)/2,)
+
+margin.error = z.99 * sd.sample / sqrt(sample.size)
+margin.error
+
+margin.left = mean.sample - margin.error
+margin.right = mean.sample + margin.error
+
+cat("(", margin.left,",", margin.right,")")
+```
+
+QUES c:
+90% CI: ( 64.1431 , 75.1129 )
+95% CI: ( 63.09234 , 76.16366 )
+99% CI: ( 61.03869 , 78.21731 )
+90% CI is the biggest interval, followed by 95% CI then 99% CI.
+
+QUES d:
+the larger the confidence level is, the bigger the confidence interval is respectively. however, when the CL reach the absolute value (100%), the CI varies with every value because it doesnt have meaningful value for prediction. CI with CL 90% is the most informative.
+
+3.
+QUES a:
+```{r}
+yrbss.complete = yrbss[complete.cases(yrbss$weight), ]
+sample.size = 30
+set.seed(5011)
+
+sample.rows = sample(1:nrow(yrbss.complete), sample.size)
+
+yrbss.sample = yrbss.complete[sample.rows, ]
+
+t.test(yrbss.sample$weight, conf.level = 0.95) $conf.int
+```
+
+QUES b:
+```{r}
+yrbss.complete = yrbss[complete.cases(yrbss$weight), ]
+sample.size = 50
+set.seed(5011)
+
+sample.rows = sample(1:nrow(yrbss.complete), sample.size)
+
+yrbss.sample = yrbss.complete[sample.rows, ]
+
+t.test(yrbss.sample$weight, conf.level = 0.95) $conf.int
+```
+
+```{r}
+yrbss.complete = yrbss[complete.cases(yrbss$weight), ]
+sample.size = 100
+set.seed(5011)
+
+sample.rows = sample(1:nrow(yrbss.complete), sample.size)
+
+yrbss.sample = yrbss.complete[sample.rows, ]
+
+t.test(yrbss.sample$weight, conf.level = 0.95) $conf.int
+```
+
+```{r}
+yrbss.complete = yrbss[complete.cases(yrbss$weight), ]
+sample.size = 300
+set.seed(5011)
+
+sample.rows = sample(1:nrow(yrbss.complete), sample.size)
+
+yrbss.sample = yrbss.complete[sample.rows, ]
+
+t.test(yrbss.sample$weight, conf.level = 0.95) $conf.int
+```
